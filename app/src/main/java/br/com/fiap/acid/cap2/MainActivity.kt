@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
+import br.com.fiap.acid.cap2.utils.showSnackBar
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity() {
         btnLoginCustom.setOnClickListener { doLoginCustom() }
     }
 
+    /**
+     * Google Login - Primeira etapa
+     */
     @Suppress("DEPRECATION")
     private fun doLoginGoogle() {
         if (signInRequest == null) {
@@ -69,8 +72,10 @@ class MainActivity : AppCompatActivity() {
                 .setGoogleIdTokenRequestOptions(
                     BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
+                        // ID do cliente web, coletado no Console ou do google-services.json:
                         .setServerClientId(getString(R.string.google_client_id))
-                        .setFilterByAuthorizedAccounts(true)
+                        // Habilita o vínculo com novas contas:
+                        .setFilterByAuthorizedAccounts(false)
                         .build()
                 )
                 .build()
@@ -95,6 +100,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Google Login - Segunda etapa
+     */
     private fun getGoogleCredentials(data: Intent?) {
         try {
             val credential = oneTapClient.getSignInCredentialFromIntent(data)
@@ -115,19 +123,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Google Login - Terceira etapa, final
+     */
     private fun finishGoogleSignIn(idToken: String) {
         val auth = Firebase.auth
-        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
 
-        auth.signInWithCredential(firebaseCredential)
+        auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    val bundle = bundleOf(
-                        "user" to user
-                    )
-
-                    startActivity(Intent(this, ProfileActivity::class.java), bundle)
+                    task.result?.user?.let { user ->
+                        navigateUserProfile(user)
+                    }
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
 
@@ -141,21 +149,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doLoginPhone() {
-
+        startActivity(Intent(this, PhoneFormActivity::class.java))
     }
 
     private fun doLoginAnon() {
+        val auth = Firebase.auth
 
+        auth.signInAnonymously()
+            .addOnCompleteListener { task ->
+                when (task.isSuccessful) {
+                    true -> {
+                        auth.currentUser?.let { user ->
+                            navigateUserProfile(user)
+                        }
+                    }
+                    false -> {
+                        showSnackBar("Autenticação anônima falhou.")
+                    }
+                }
+            }
     }
 
     private fun doLoginCustom() {
-
+        startActivity(Intent(this, CustomFormActivity::class.java))
     }
 
-    private fun showSnackBar(message: String) {
-        Snackbar
-            .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-            .show()
+    private fun navigateUserProfile(user: FirebaseUser) {
+        val intent = Intent(this, ProfileActivity::class.java)
+
+        intent.putExtra(ProfileActivity.USER_PARAM, user)
+
+        startActivity(intent)
     }
 
     companion object {

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ACIDCap2">
         <activity
+            android:name=".CustomFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

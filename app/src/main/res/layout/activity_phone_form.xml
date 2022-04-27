@@ -5,52 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".EmailFormActivity">
+    tools:context=".PhoneFormActivity">
 
     <EditText
-        android:id="@+id/et_email"
+        android:id="@+id/et_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:autofillHints="Preencha com o email do usuário"
-        android:hint="@string/hint_email_do_usuario"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@id/et_pass"
+        android:autofillHints="Preencha com o telefone do usuário"
+        android:hint="@string/hint_telefone_do_usuario"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@id/et_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/et_pass"
+        android:id="@+id/et_code"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
-        android:autofillHints="Preencha com a senha do usuário"
-        android:hint="@string/hint_senha_do_usuario"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@id/swt_create"
+        android:autofillHints="Preencha com o código de validação recebido"
+        android:enabled="false"
+        android:hint="@string/hint_codigo_de_validacao_recebido"
+        android:inputType="number"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btn_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email" />
+        app:layout_constraintTop_toBottomOf="@id/et_phone"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:visibility="visible" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swt_create"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:text="@string/criar_conta_do_usuario"
+        android:text="Enviar código de validação"
         app:layout_constraintBottom_toTopOf="@id/btn_enter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_pass" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_code" />
 
     <Button
         android:id="@+id/btn_enter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/entrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/swt_create" />
+        app:layout_constraintTop_toBottomOf="@id/btn_send" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
