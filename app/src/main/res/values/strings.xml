@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">ACID - Cap 2</string>
+    <string name="login_via_google">Login via Google</string>
+    <string name="login_via_email">Login via Email</string>
+    <string name="login_via_telefone">Login via Telefone</string>
+    <string name="login_anonimo">Login Anonimo</string>
+    <string name="login_via_personalizado">Login via Personalizado</string>
+    <string name="hint_email_do_usuario">E-mail do usuário</string>
+    <string name="hint_senha_do_usuario">Senha do usuário</string>
+    <string name="entrar">Entrar</string>
+    
+    <string name="google_client_id">sua-client-id</string>
 </resources>
