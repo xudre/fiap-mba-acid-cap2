@@ -15,5 +15,6 @@
     <string name="hint_telefone_do_usuario">Telefone do usuário</string>
     <string name="hint_codigo_de_validacao_recebido">Código de validação recebido</string>
     <string name="criar_conta_do_usuario">Criar conta do usuário</string>
+    <string name="hint_token_personalizado">Token personalizado</string>
 
 </resources>

@@ -4,6 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".CustomFormActivity">
+
+    <EditText
+        android:id="@+id/et_token"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:autofillHints="Preencha com o token recebido pelo backend"
+        android:gravity="top|start"
+        android:hint="@string/hint_token_personalizado"
+        android:inputType="textEmailAddress"
+        android:lines="6"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/btn_enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/btn_enter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/entrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_token" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
